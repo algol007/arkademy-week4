@@ -7,7 +7,7 @@
         <h1>to the world</h1>
       </div>
       <div class="text-footer">
-        <p>By signing up, you agree to Book's</p>
+        <p>Photo by Mark Pan4ratte on Unsplash</p>
       </div>
     </div>
   </div>
@@ -25,14 +25,15 @@ export default {
     background-image: url('../../assets/img/mollie-sivaram-_1gBVgy8gIU-unsplash.png');
     background-size: cover;
     background-position: center center;
-    /* min-height: 750px; */
+    min-height: 700px;
     height: 100vh;
     z-index: -1;
     padding: 0 !important;
   }
   .overlay{
     background-color: rgba(0, 0, 0, 0.5);
-    height: 100%;
+    min-height: 700px;
+    height: 100vh;
     width: 60%;
     position: absolute;
   }
@@ -43,7 +44,8 @@ export default {
     display: flex;
     flex-direction: column;
     align-content: space-between;
-    height: 100%;
+    min-height: 700px;
+    height: 100vh;
   }
   .text-slogan h1{
     font-size: 50px;

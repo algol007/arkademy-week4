@@ -20,6 +20,15 @@
           <router-link to='/auth/login' class="button is-black">Login</router-link>
           <router-link to='/auth/register' class="button is-white">Signup</router-link>
         </form>
+        <div class="footer-login">
+          <p class="intro-end">
+            By signing up, you agree to Book's
+          </p>
+          <p class="intro-end">
+            <a href="#">Terms and Conditions</a> &
+            <a href="#">Privacy Policy</a>
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -71,6 +80,9 @@ export default {
     transition: 0.5s;
     color: #ffffff;
     background: #000000;
+  }
+  .footer-login{
+    margin-top: 50px;
   }
   @media (max-width: 992px) {
     .auth-form {

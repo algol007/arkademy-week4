@@ -16,13 +16,24 @@
           placeholder="Full Name"/>
           <FormLogin label='Email Address' name='email' type='email'
           placeholder="Email Address"/>
-          <FormLogin class="password" label='Password' name='password' type='password'
+          <FormLogin label='Password' name='password' type='password'
           placeholder="Password"/>
+          <FormLogin class="password" label='Repeat Password' name='password1' type='password'
+          placeholder="Repeat Password"/>
           <div class="button-group">
             <router-link to='/auth/register' class="button is-black">Signup</router-link>
             <router-link to='/auth/login' class="button is-white">Login</router-link>
           </div>
         </form>
+        <div class="footer-login">
+          <p class="intro-end">
+            By signing up, you agree to Book's
+          </p>
+          <p class="intro-end">
+            <a href="#">Terms and Conditions</a> &
+            <a href="#">Privacy Policy</a>
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -75,6 +86,9 @@ export default {
     transition: 0.5s;
     color: #ffffff;
     background: #000000;
+  }
+  .footer-login{
+    margin-top: 50px;
   }
   @media (max-width: 992px) {
     .auth-form {
