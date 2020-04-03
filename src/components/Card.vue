@@ -8,17 +8,12 @@
     <div class="card-content">
       <div class="media">
         <div class="media-content">
-          <p class="title is-4">John Smith</p>
-          <p class="subtitle is-6">@johnsmith</p>
+          <p class="title is-4">{{ bookTitle }}</p>
         </div>
       </div>
 
       <div class="content">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-        <a href="#">#css</a> <a href="#">#responsive</a>
-        <br>
-        <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+        {{ bookDesc }}
       </div>
     </div>
   </div>
@@ -27,15 +22,32 @@
 <script>
 export default {
   name: 'Card',
+  props: [
+    'bookTitle',
+    'bookDesc',
+  ],
 };
 </script>
 
-<style>
+<style scoped>
   .card{
-    width: 300px !important;
+    width: 250px !important;
+    height: 350px;
     margin: 10px 5px;
+  }
+  .title{
+    font-size: 18px;
+  }
+  .media-content{
+    height: 20px;
+    overflow: hidden;
   }
   .content{
     font-size: 14px;
+    height: 85px;
+    overflow: hidden;
+  }
+  .card-content .media{
+    margin-bottom: 16px !important;
   }
 </style>

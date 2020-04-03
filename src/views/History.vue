@@ -1,7 +1,19 @@
 <template>
-    <h1>History Page</h1>
+  <div>
+    <input type="text" v-model="name">
+  </div>
 </template>
 <script>
-export default {};
+export default {
+  name: 'History',
+  data() {
+    return {
+      name: null,
+    };
+  },
+  // methods: {
+
+  // }
+};
 </script>
 <style></style>

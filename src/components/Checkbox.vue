@@ -2,7 +2,7 @@
   <div class="checkbox">
     <div class="check">
       <label class="checkbox-label">
-        <input type="checkbox" id="checklist" />
+        <input type="checkbox" id="checklist" checked />
         <span class="checkbox-custom"></span>
         <div class="remember">Remember Me</div>
       </label>

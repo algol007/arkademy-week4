@@ -11,7 +11,7 @@
     </div>
     <div class="detail-cover"></div>
     <div class="detail-book"></div>
-    <Modal modalTitle="Edit Book"/>
+    <Modal modalTitle="Edit Book" save="addBook"/>
   </section>
 </template>
 
@@ -35,6 +35,11 @@ export default {
         showConfirmButton: false,
         timer: 3000,
       });
+    },
+    addBook() {
+      const save = document.querySelector('.button-save');
+      save.addEventListener('click', console.log('Clicked'));
+      console.log('Hello');
     },
   },
 };

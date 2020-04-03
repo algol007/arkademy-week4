@@ -12,16 +12,26 @@
           <h5>to create account</h5>
         </div>
         <form action="" class="form">
-          <FormLogin label='Full Name' name='name' type='text'
-          placeholder="Full Name"/>
-          <FormLogin label='Email Address' name='email' type='email'
-          placeholder="Email Address"/>
-          <FormLogin label='Password' name='password' type='password'
-          placeholder="Password"/>
-          <FormLogin class="password" label='Repeat Password' name='password1' type='password'
-          placeholder="Repeat Password"/>
+          <div class="form-group">
+            <label for="name">Fullname</label>
+            <input type="name" name="name" id="name" placeholder="Fullname" v-model="name">
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" name="email" id="email" placeholder="Email Address" v-model="email">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" placeholder="Password"
+            v-model="password">
+          </div>
+          <div class="form-group">
+            <label for="password2">Repeat Password</label>
+            <input type="password" name="password2" id="password2" placeholder="Repeat Password"
+            v-model="password2">
+          </div>
           <div class="button-group">
-            <router-link to='/auth/register' class="button is-black">Signup</router-link>
+            <button @click="signUp" class="button is-black">Signup</button>
             <router-link to='/auth/login' class="button is-white">Login</router-link>
           </div>
         </form>
@@ -40,14 +50,45 @@
 </template>
 
 <script>
+import axios from 'axios';
 import Auth from '../components/templates/Auth.vue';
-import FormLogin from '../components/FormLogin.vue';
+// import FormLogin from '../components/FormLogin.vue';
 
 export default {
   name: 'Login',
   components: {
     Auth,
-    FormLogin,
+    // FormLogin,
+  },
+  data() {
+    return {
+      name: null,
+      email: null,
+      password: null,
+      password2: null,
+    };
+  },
+  methods: {
+    signUp(event) {
+      event.preventDefault();
+      if (this.password !== this.password2) {
+        console.log('Password tidak sama!');
+      } else {
+        axios
+          .post('http://localhost:5000/api/library/auth/signup', {
+            name: this.name,
+            email: this.email,
+            password: this.password,
+            this.$router.push('/auth/login');
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
   },
 };
 </script>
@@ -89,6 +130,28 @@ export default {
   }
   .footer-login{
     margin-top: 50px;
+  }
+  .form-group{
+    border-radius: 5px;
+    padding: 10px 20px;
+    border: 1px solid #e0e0e0;
+  }
+  .form-group input{
+    font-family: Airbnb;
+    border: none;
+    display: block;
+    font-size: 16px;
+    outline: none;
+    width: 100%;
+    color: #424242;
+  }
+  .form-group input:focus{
+    background: none;
+  }
+  .form-group label{
+    color: #d0cccc;
+    font-size: 14px;
+    display: block;
   }
   @media (max-width: 992px) {
     .auth-form {

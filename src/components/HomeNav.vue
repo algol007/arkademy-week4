@@ -1,8 +1,10 @@
 <template>
   <nav class="columns is-gapless custom-navbar">
-    <Sidebar class="sidebar-start" />
-    <div class="column is-1 toggle-menu" v-on:click="sidebarShow">
-      <img src="../assets/img/menu.png" alt="toggle-menu">
+    <div class="column navbar-brand">
+      <router-link to="/">
+      <img src="../assets/img/bookshelf.png" alt="logo" height="40px" width="40px">
+      </router-link>
+      <router-link to="/" class="back-home">Library</router-link>
     </div>
     <div class="column sort-book">
       <div class="dropdown satu">
@@ -58,31 +60,17 @@
           aria-label="Search"/>
       </div>
     </div>
-    <div class="column navbar-brand">
-      <router-link to="/">
-      <img src="../assets/img/bookshelf.png" alt="logo" height="40px" width="40px">
-      </router-link>
-      <router-link to="/" class="back-home">Library</router-link>
+    <div class="column button-login">
+      <router-link to="/auth/login" class="button is-black">Login</router-link>
     </div>
   </nav>
 </template>
 
 <script>
-import Sidebar from './Sidebar.vue';
-// import Dropdown from './Dropdown.vue';
 
 export default {
-  name: 'Navbar',
-  components: {
-    Sidebar,
-    // Dropdown,
-  },
+  name: 'HomeNav',
   methods: {
-    sidebarShow() {
-      const sidebar = document.querySelector('.sidebar');
-      sidebar.classList.toggle('show-sidebar');
-      console.log('Navbar');
-    },
     active1() {
       const dropdown1 = document.querySelector('.satu');
       dropdown1.classList.toggle('is-active');
@@ -140,7 +128,7 @@ export default {
     border: none;
     outline: none;
   }
-  .navbar-brand{
+  .navbar-brand, .button-login{
     display: flex;
     align-items: center;
     justify-content: center;

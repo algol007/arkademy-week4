@@ -12,12 +12,17 @@
           <h5>to your account</h5>
         </div>
         <form action="" class="form">
-          <FormLogin label='Email Address' name='email' type='email'
-          placeholder="Email Address"/>
-          <FormLogin class="password" label='Password' name='password' type='password'
-          placeholder="Password"/>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" name="email" id="email" placeholder="Email Address" v-model="email">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" placeholder="Password"
+            v-model="password">
+          </div>
           <Checkbox />
-          <router-link to='/auth/login' class="button is-black">Login</router-link>
+          <button class="button is-black" @click="signIn">Login</button>
           <router-link to='/auth/register' class="button is-white">Signup</router-link>
         </form>
         <div class="footer-login">
@@ -35,16 +40,44 @@
 </template>
 
 <script>
+import axios from 'axios';
 import Auth from '../components/templates/Auth.vue';
-import FormLogin from '../components/FormLogin.vue';
+// import FormLogin from '../components/FormLogin.vue';
 import Checkbox from '../components/Checkbox.vue';
 
 export default {
   name: 'Login',
   components: {
     Auth,
-    FormLogin,
+    // FormLogin,
     Checkbox,
+  },
+  data() {
+    return {
+      email: null,
+      password: null,
+    };
+  },
+  props: [
+    'isLogin',
+  ],
+  methods: {
+    signIn(event) {
+      event.preventDefault();
+      axios
+        .post('http://localhost:5000/api/library/auth/signin', {
+          email: this.email,
+          password: this.password,
+        })
+        .then((res) => {
+          this.$router.push('/');
+          console.log(res);
+          this.isLogin = true;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 };
 </script>
@@ -83,6 +116,28 @@ export default {
   }
   .footer-login{
     margin-top: 50px;
+  }
+  .form-group{
+    border-radius: 5px;
+    padding: 10px 20px;
+    border: 1px solid #e0e0e0;
+  }
+  .form-group input{
+    font-family: Airbnb;
+    border: none;
+    display: block;
+    font-size: 16px;
+    outline: none;
+    width: 100%;
+    color: #424242;
+  }
+  .form-group input:focus{
+    background: none;
+  }
+  .form-group label{
+    color: #d0cccc;
+    font-size: 14px;
+    display: block;
   }
   @media (max-width: 992px) {
     .auth-form {

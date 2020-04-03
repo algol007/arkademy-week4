@@ -21,7 +21,7 @@
       <p>Explore</p>
       <p>History</p>
       <p data-toggle="modal" v-on:click="showModal">Add Book*</p>
-      <p>Logout</p>
+      <p><router-link to="/auth/login">Logout</router-link></p>
     </div>
     <!-- Sidebar Menu -->
     <Modal modalTitle="Add Book" />
@@ -110,8 +110,8 @@ export default {
   }
 
   .sidebar-menu > p {
-    cursor: pointer;
     color: #000000;
+    cursor: pointer;
     font-size: 1em;
     margin: 1em 0;
     display: flex;

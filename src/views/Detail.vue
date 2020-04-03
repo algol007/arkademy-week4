@@ -8,28 +8,16 @@
             <div class="category">
               <button class="button is-rounded is-warning">Novel</button>
             </div>
-            <div class="desc-title">Dilan 1990</div>
-            <div class="desc-subtitle">30 Juni 2019</div>
+            <div class="desc-title">{{ book.title }}</div>
+            <div class="desc-subtitle">{{ book.author }}</div>
           </div>
           <div class="column status">
-            <p>Available</p>
+            <p>{{ book.status }}</p>
           </div>
         </div>
         <div class="desc-text">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac diam eget
-            est rutrum ultrices. Donec laoreet enim a massa dapibus, cursus egestas dui
-            pulvinar. Proin sit amet accumsan lectus. Nullam auctor auctor consequat.
-            Donec semper magna erat, sed fringilla lacus pretium eget. Cras porttitor,
-            nibh sit amet interdum bibendum, nibh velit accumsan tellus, vel vehicula
-            tellus leo vitae ipsum. Praesent sit amet libero sed orci ullamcorper
-            efficitur. Pellentesque in euismod purus, sit amet ultrices tortor. Vestibulum
-            ante dui, tempor at dui id, tincidunt euismod diam. Integer pellentesque massa
-            nibh, ac eleifend odio malesuada sed. Phasellus orci sem, cursus nec orci ut,
-            accumsan facilisis lacus. Nullam at elementum nibh, ac gravida felis. In
-            sagittis rhoncus nisi tempus dignissim. Sed fringilla consequat ante vitae
-            lobortis. Cras posuere ligula vel enim suscipit malesuada. Vivamus non
-            nulla ut ante imperdiet euismod quis nec massa.
+            {{ book.description }}
           </p>
         </div>
       </div>
@@ -41,12 +29,34 @@
 </template>
 
 <script>
+import axios from 'axios';
 import DetailBook from '../components/templates/Detail.vue';
 
 export default {
   name: 'Detail',
   components: {
     DetailBook,
+  },
+  data() {
+    return {
+      book: [],
+    };
+  },
+  methods: {
+    getBookById() {
+      axios.get(`http://localhost:5000/api/library/book/${this.$route.params.id}`)
+        .then((res) => {
+          this.book = res.data.book;
+          console.log(res.data.book);
+          // console.log(${this.$route.params.id});
+        })
+        .catch(() => {
+          console.log('Error when load data!');
+        });
+    },
+  },
+  mounted() {
+    this.getBookById();
   },
 };
 </script>

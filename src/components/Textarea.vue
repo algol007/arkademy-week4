@@ -6,7 +6,8 @@
     <div class="field-body">
       <div class="field">
         <div class="control">
-          <textarea class="textarea" :placeholder="name"></textarea>
+          <textarea class="textarea" :placeholder="name"
+          :value="value"></textarea>
         </div>
       </div>
     </div>
@@ -18,6 +19,7 @@ export default {
   name: 'Textarea',
   props: [
     'name',
+    'value',
   ],
 };
 </script>
