@@ -83,6 +83,12 @@ export default {
           .then((res) => {
             this.$router.push('/auth/login');
             console.log(res);
+            this.$swal.fire({
+              icon: 'success',
+              html: 'User has been created! Please login.',
+              showConfirmButton: false,
+              timer: 3000,
+            });
           })
           .catch((err) => {
             console.log(err);

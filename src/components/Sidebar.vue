@@ -10,10 +10,10 @@
     <!-- User Profile -->
     <div class="profile">
       <img
-        src="../assets/img/niki.png"
+        src="../assets/img/default-user.jpg"
         alt="Cewe Cantik"
       />
-      <h4>Niki Zefanya</h4>
+      <h4>{{ name }}</h4>
     </div>
     <!-- User Profile -->
     <!-- Sidebar Menu -->
@@ -29,16 +29,16 @@
     </div>
     <div class="sidebar-menu">
       <p>Explore</p>
-      <p><router-link to="/history">History</router-link></p>
+      <p><router-link to="/history" class="menu-list">History</router-link></p>
       <p data-toggle="modal" v-on:click="showModal">Add Book*</p>
-      <p><router-link to="/auth/login">Logout</router-link></p>
+      <p @click="logout">Logout</p>
     </div>
     <!-- Sidebar Menu -->
     <div class="modal">
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">Edit Book</p>
+          <p class="modal-card-title">Add Book</p>
           <button class="delete" aria-label="close" @click="showModal"></button>
         </header>
         <section class="modal-card-body">
@@ -109,6 +109,9 @@ export default {
   components: {
     // Modal,
   },
+  props: [
+    'name',
+  ],
   data() {
     return {
       title: null,
@@ -125,6 +128,10 @@ export default {
     };
   },
   methods: {
+    logout() {
+      localStorage.removeItem('isLogin');
+      this.$router.push('/auth/login');
+    },
     sidebarHide() {
       const sidebar = document.querySelector('.sidebar');
       sidebar.classList.toggle('show-sidebar');
@@ -154,7 +161,9 @@ export default {
             timer: 3000,
           });
           const modal = document.querySelector('.modal');
+          const sidebar = document.querySelector('.sidebar');
           modal.classList.toggle('is-active');
+          sidebar.classList.toggle('show-sidebar');
         })
         .catch((err) => {
           console.log(err);
@@ -209,6 +218,7 @@ export default {
   .profile img {
     width: 150px;
     height: 150px;
+    border-radius: 50%;
   }
   .profile h4 {
     font-size: 20px;
@@ -222,16 +232,18 @@ export default {
   .sidebar-menu{
     padding: 0 30px;
   }
-  .sidebar-menu > p {
-    color: #000000;
+  .sidebar-menu p{
+    margin: 1em 0;
+  }
+  .sidebar-menu p, .menu-list {
+    color: #000000 !important;
     cursor: pointer;
     font-size: 1em;
-    margin: 1em 0;
     display: flex;
     flex-direction: column;
     transition: 0.5s;
   }
-  .sidebar-menu > p:hover {
+  .sidebar-menu p:hover, .menu-list {
     color: #424242;
     transition: 0.5s;
   }

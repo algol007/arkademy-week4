@@ -8,7 +8,7 @@
     <ul v-for="book in books" :key="book.id">
       <li>{{ book.title }}</li>
     </ul>
-    <!-- <input type="text" v-model="email"> -->
+    <input type="text" v-model="email">
     <FormLogin @change="mInput" />
   </div>
 </template>

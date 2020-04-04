@@ -13,7 +13,7 @@
       </div>
 
       <div class="content">
-        {{ bookDesc }}
+        {{ bookAuthor }} - {{ year }}
       </div>
 
     </div>
@@ -25,7 +25,8 @@ export default {
   name: 'Card',
   props: [
     'bookTitle',
-    'bookDesc',
+    'bookAuthor',
+    'year',
     'image',
   ],
 };
@@ -36,10 +37,10 @@ export default {
     transition: 0.5s;
     width: 250px !important;
     height: 350px;
-    margin: 10px 5px;
+    margin: 10px  ;
   }
   .card-image{
-    height: 180px;
+    height: 250px;
     overflow: hidden;
   }
   .title{
@@ -51,8 +52,11 @@ export default {
   }
   .content{
     font-size: 14px;
-    height: 85px;
+    /* height: 85px; */
     overflow: hidden;
+  }
+  .card-content{
+    padding: 10px 20px;
   }
   .card-content .media{
     margin-bottom: 16px !important;

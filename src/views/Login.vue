@@ -14,12 +14,13 @@
         <form action="" class="form">
           <div class="form-group">
             <label for="email">Email Address</label>
-            <input type="email" name="email" id="email" placeholder="Email Address" v-model="email">
+            <input type="email" name="email" id="email" placeholder="Email Address" v-model="email"
+            required>
           </div>
           <div class="form-group">
             <label for="password">Password</label>
             <input type="password" name="password" id="password" placeholder="Password"
-            v-model="password">
+            v-model="password" required>
           </div>
           <Checkbox />
           <button class="button is-black" @click="signIn">Login</button>
@@ -54,11 +55,18 @@ export default {
   },
   data() {
     return {
+      items: [],
+      isLogin: true,
       email: null,
       password: null,
+      userId: null,
     };
   },
   methods: {
+    localData() {
+      const parsed = JSON.stringify({ isLogin: true, id: this.userId });
+      localStorage.setItem('items', parsed);
+    },
     signIn(event) {
       event.preventDefault();
       axios
@@ -67,16 +75,25 @@ export default {
           password: this.password,
         })
         .then((res) => {
+          this.userId = res.data.id;
           this.$router.push('/');
-          console.log(res);
-          this.isLogin = true;
+          console.log(this.userId);
+          this.$swal.fire({
+            icon: 'success',
+            html: 'Login Success!',
+            showConfirmButton: false,
+            timer: 3000,
+          });
+          this.localData();
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          this.$swal.fire({
+            icon: 'error',
+            html: 'Wrong Email or Password!',
+            showConfirmButton: false,
+            timer: 3000,
+          });
         });
-    },
-    isLogin() {
-      localStorage.setItem('login', true);
     },
   },
 };

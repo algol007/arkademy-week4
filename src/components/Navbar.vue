@@ -4,43 +4,6 @@
     <div class="toggle-menu" v-on:click="sidebarShow">
       <img src="../assets/img/menu.png" alt="toggle-menu">
     </div>
-    <div class="column sort-book">
-      <div class="dropdown satu">
-        <div class="dropdown-trigger">
-          <a class="button" aria-haspopup="true" aria-controls="dropdown-menu" v-on:click="active1">
-            <span>Sort Book</span>
-            <span class="icon is-small">
-              <i class="fas fa-angle-down" aria-hidden="true"></i>
-            </span>
-          </a>
-        </div>
-        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-          <div class="dropdown-content">
-            <div class="dropdown-item">
-              By Title
-            </div>
-            <hr class="dropdown-divider">
-            <div class="dropdown-item">
-              By Author
-            </div>
-            <hr class="dropdown-divider">
-            <div class="dropdown-item">
-              By Years
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="column search">
-      <div class="search-box">
-        <i class="fas fa-search"></i>
-        <input
-          class="form-control mr-sm-2"
-          type="search"
-          placeholder="Search..."
-          aria-label="Search"/>
-      </div>
-    </div>
     <div class="column navbar-brand">
       <router-link to="/">
       <img src="../assets/img/bookshelf.png" alt="logo" height="40px" width="40px">
@@ -128,7 +91,8 @@ export default {
   .navbar-brand{
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
+    margin: 0 30px !important;
   }
   .navbar-brand img{
     margin-right: 10px;

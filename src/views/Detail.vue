@@ -11,10 +11,8 @@
           <button @click="deleteBook">Delete</button>
         </div>
       </div>
-      <div class="detail-cover">
-        <img src='${book.title}' alt="tes">
-      </div>
-      <div class="detail-book"></div>
+      <div class="detail-cover" :style="img"></div>
+      <div class="detail-book" :style="img"></div>
       <!-- <Modal modalTitle="Edit Book" save="addBook"/> -->
     </div>
     <div class="description">
@@ -22,7 +20,9 @@
         <div class="availability">
           <div class="column desc-box">
             <div class="category">
-              <button class="button is-rounded is-warning">Novel</button>
+              <button class="button is-rounded is-warning">
+                {{ book.bookCategory.name }}
+                </button>
             </div>
             <div class="desc-title">{{ book.title }}</div>
             <div class="desc-subtitle">{{ book.author }}</div>
@@ -38,7 +38,7 @@
         </div>
       </div>
       <div class="column is-2 button-borrow">
-        <button class="button is-warning" @click="successInfo">Borrow</button>
+        <button class="button is-warning" @click="addBorrow">Borrow</button>
       </div>
     </div>
 
@@ -119,12 +119,14 @@ export default {
   data() {
     return {
       book: [],
+      bookId: null,
     };
   },
   methods: {
     showModal() {
       const modal = document.querySelector('.modal');
       modal.classList.toggle('is-active');
+      console.log(this.book.bookCategory);
     },
     deleteBook() {
       this.$swal.fire({
@@ -187,18 +189,37 @@ export default {
       axios.get(`http://localhost:5000/api/library/book/${this.$route.params.id}`)
         .then((res) => {
           this.book = res.data.book;
+          console.log(res);
         })
         .catch(() => {
           console.log('Error when load data!');
         });
     },
-    successInfo() {
-      this.$swal.fire({
-        icon: 'success',
-        html: `Book ${this.book.title} has been added to cart!`,
-        showConfirmButton: false,
-        timer: 3000,
-      });
+    addBorrow() {
+      this.bookId = this.$route.params.id;
+      axios
+        .post('http://localhost:5000/api/library/cart', {
+          bookId: this.bookId,
+        })
+        .then((res) => {
+          console.log(res);
+          this.$swal.fire({
+            icon: 'success',
+            html: `Book ${this.book.title} has been borrowed!`,
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
+  computed: {
+    img() {
+      return {
+        'background-image': `url(${this.book.image})`,
+      };
     },
   },
   mounted() {
@@ -251,6 +272,7 @@ export default {
     width: 200px;
     height: 300px;
     background-color: salmon;
+    /* background-image: url(`${this.book.image}`); */
     position: absolute;
     top: 250px;
     right: 50px;

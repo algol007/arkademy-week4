@@ -17,22 +17,18 @@
       <table class="table is-hoverable">
         <thead>
           <tr>
-            <th>ID Transaksi</th>
-            <th>Waktu Transaksi</th>
-            <th>Buku Yang Dipinjam</th>
+            <th>ID Cart</th>
+            <th>Title</th>
+            <th>Date Borrow</th>
             <th>Action</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-for="cart in carts" :key="cart.id">
           <tr>
-            <th>1</th>
-            <td><a href="https://en.wikipedia.org/wiki/Leicester_City_F.C." title="Leicester City F.C.">Leicester City</a> <strong>(C)</strong>
-            </td>
-            <td>81</td>
-            <td class="buttons are-small">
-              <button class="button is-info">Detail</button>
-              <button class="button is-danger">Delete</button>
-            </td>
+            <td>{{ cart.id }}</td>
+            <td>{{ cart.bookCart.title }}</td>
+            <td>{{ cart.createdAt }}</td>
+            <td><button class="button is-info is-small" @click="seeDetail">Detail</button></td>
           </tr>
         </tbody>
       </table>
@@ -43,6 +39,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import Navbar from '../components/Navbar.vue';
 
 export default {
@@ -52,19 +49,61 @@ export default {
   },
   data() {
     return {
-      name: null,
+      carts: [],
+      // bookId: null,
     };
   },
-  // methods: {
-
-  // }
+  methods: {
+    getAllCart() {
+      axios
+        .get('http://localhost:5000/api/library/cart')
+        .then((res) => {
+          this.carts = res.data.carts;
+          console.log(this.carts);
+        })
+        .catch(() => {
+          console.log('Error when load data!');
+        });
+    },
+    seeDetail() {
+      const book = this.carts;
+      console.log(book.bookId);
+      // axios
+      //   .get(`http://localhost:5000/api/library/book/${book}`)
+      //   .then((res) => {
+      //     this.book = res.data.book;
+      //     console.log(res);
+      //   })
+      //   .catch(() => {
+      //     console.log('Error when load data!');
+      //   });
+    },
+  },
+  mounted() {
+    this.getAllCart();
+  },
+  computed: {
+    img() {
+      return {
+        // 'background-image': `url(${this.carts.bookCart.image})`,
+      };
+    },
+  },
 };
 </script>
 <style scoped>
+  .book-image{
+    width: 80px;
+    height: 100px;
+    background-color: teal;
+  }
   .card{
     margin: 0 10px;
   }
   button{
     margin: 0 5px;
+  }
+  .lists{
+    margin-top: 50px;
   }
 </style>
