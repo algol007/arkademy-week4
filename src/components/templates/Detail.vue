@@ -6,35 +6,48 @@
       </div>
       <div class="nav-option">
         <button v-on:click="showModal">Edit</button>
-        <button v-on:click="successInfo">Delete</button>
+        <button v-on:click="deleteBook">Delete</button>
       </div>
     </div>
-    <div class="detail-cover"></div>
-    <div class="detail-book"></div>
-    <Modal modalTitle="Edit Book" save="addBook"/>
+    <div class="detail-cover" style="backgroundImage:" :url="image"></div>
+    <div class="detail-book" style="backgroundImage: url('https://www.grobmart.com/image/cache/catalog/0produk0/201904/komet%20minor-550x550h.jpg')"></div>
+    <!-- <Modal modalTitle="Edit Book" save="addBook"/> -->
   </section>
 </template>
 
 <script>
-import Modal from '../Modal.vue';
+import axios from 'axios';
+// import Modal from '../Modal.vue';
 
 export default {
   name: 'Detail',
   components: {
-    Modal,
+    // Modal,
   },
+  props: [
+    'image',
+  ],
   methods: {
+    deleteBook() {
+      axios
+        .delete(`http://localhost:5000/api/library/admin/book/${this.$route.params.id}`)
+        .then((res) => {
+          console.log(res);
+          this.$swal.fire({
+            icon: 'success',
+            html: `Book ${this.book.title} has been deleted!`,
+            showConfirmButton: false,
+            timer: 3000,
+          });
+          this.$router.push('/');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     showModal() {
       const modal = document.querySelector('.modal');
       modal.classList.toggle('is-active');
-    },
-    successInfo() {
-      this.$swal.fire({
-        icon: 'success',
-        html: 'Data <b>Dilan 1990</b> berhasil dihapus!',
-        showConfirmButton: false,
-        timer: 3000,
-      });
     },
     addBook() {
       const save = document.querySelector('.button-save');
@@ -76,12 +89,17 @@ export default {
   .detail-cover{
     width: 100%;
     height: 400px;
-    background-color: #424242;
     z-index: -1;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
   }
   .detail-book{
-    width: 230px;
-    height: 320px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 200px;
+    height: 300px;
     background-color: salmon;
     position: absolute;
     top: 250px;

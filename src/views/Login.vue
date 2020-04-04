@@ -58,9 +58,6 @@ export default {
       password: null,
     };
   },
-  props: [
-    'isLogin',
-  ],
   methods: {
     signIn(event) {
       event.preventDefault();
@@ -77,6 +74,9 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    isLogin() {
+      localStorage.setItem('login', true);
     },
   },
 };

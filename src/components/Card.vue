@@ -1,8 +1,8 @@
 <template>
   <div class="card">
     <div class="card-image">
-      <figure class="image is-4by3">
-        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+      <figure class="image is-2by2">
+        <img :src="image" :alt="image">
       </figure>
     </div>
     <div class="card-content">
@@ -15,6 +15,7 @@
       <div class="content">
         {{ bookDesc }}
       </div>
+
     </div>
   </div>
 </template>
@@ -25,15 +26,21 @@ export default {
   props: [
     'bookTitle',
     'bookDesc',
+    'image',
   ],
 };
 </script>
 
 <style scoped>
   .card{
+    transition: 0.5s;
     width: 250px !important;
     height: 350px;
     margin: 10px 5px;
+  }
+  .card-image{
+    height: 180px;
+    overflow: hidden;
   }
   .title{
     font-size: 18px;

@@ -1,14 +1,14 @@
 <template>
   <nav class="columns is-gapless custom-navbar">
     <Sidebar class="sidebar-start" />
-    <div class="column is-1 toggle-menu" v-on:click="sidebarShow">
+    <div class="toggle-menu" v-on:click="sidebarShow">
       <img src="../assets/img/menu.png" alt="toggle-menu">
     </div>
     <div class="column sort-book">
       <div class="dropdown satu">
         <div class="dropdown-trigger">
           <a class="button" aria-haspopup="true" aria-controls="dropdown-menu" v-on:click="active1">
-            <span>All Categories</span>
+            <span>Sort Book</span>
             <span class="icon is-small">
               <i class="fas fa-angle-down" aria-hidden="true"></i>
             </span>
@@ -16,34 +16,17 @@
         </div>
         <div class="dropdown-menu" id="dropdown-menu" role="menu">
           <div class="dropdown-content">
-            <a href="#" class="dropdown-item">
-              Novel
-            </a>
+            <div class="dropdown-item">
+              By Title
+            </div>
             <hr class="dropdown-divider">
-            <a href="#" class="dropdown-item">
-              Komik
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="dropdown dua">
-        <div class="dropdown-trigger">
-          <a class="button" aria-haspopup="true" aria-controls="dropdown-menu" v-on:click="active2">
-            <span>All Time</span>
-            <span class="icon is-small">
-              <i class="fas fa-angle-down" aria-hidden="true"></i>
-            </span>
-          </a>
-        </div>
-        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-          <div class="dropdown-content">
-            <a href="#" class="dropdown-item">
-              Terbaru
-            </a>
+            <div class="dropdown-item">
+              By Author
+            </div>
             <hr class="dropdown-divider">
-            <a href="#" class="dropdown-item">
-              Terlama
-            </a>
+            <div class="dropdown-item">
+              By Years
+            </div>
           </div>
         </div>
       </div>
@@ -102,6 +85,7 @@ export default {
     box-shadow: 3px 2px 20px rgba(0, 0, 0, 0.2);
     margin: 0;
     padding: 5px 0 !important;
+    display: flex;
   }
   .column{
     padding: 0 !important;
@@ -111,6 +95,7 @@ export default {
   }
   .toggle-menu{
     cursor: pointer;
+    width: 40px;
   }
   .column{
     display: flex;
@@ -150,5 +135,18 @@ export default {
   }
   .navbar-brand .back-home{
     color: #424242;
+  }
+  .dropdown-item{
+    cursor: pointer;
+  }
+  @media (max-width: 768px) {
+    .sort-book {
+      display: none;
+    }
+  }
+  @media (max-width: 450px) {
+    .search-box {
+      display: none;
+    }
   }
 </style>

@@ -17,30 +17,148 @@
     </div>
     <!-- User Profile -->
     <!-- Sidebar Menu -->
+    <div class="column search">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input
+          class="form-control mr-sm-2"
+          type="search"
+          placeholder="Search..."
+          aria-label="Search"/>
+      </div>
+    </div>
     <div class="sidebar-menu">
       <p>Explore</p>
-      <p>History</p>
+      <p><router-link to="/history">History</router-link></p>
       <p data-toggle="modal" v-on:click="showModal">Add Book*</p>
       <p><router-link to="/auth/login">Logout</router-link></p>
     </div>
     <!-- Sidebar Menu -->
-    <Modal modalTitle="Add Book" />
+    <div class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Edit Book</p>
+          <button class="delete" aria-label="close" @click="showModal"></button>
+        </header>
+        <section class="modal-card-body">
+          <div class="form-login">
+            <label for="title">Title</label>
+            <input name="Title" id="title" placeholder="Title" v-model="title"/>
+          </div>
+          <div class="form-login">
+            <label for="image">Image</label>
+            <input name="image" id="image" placeholder="Image" v-model="image"/>
+          </div>
+          <div class="form-login">
+            <label for="author">Author</label>
+            <input name="author" id="author" placeholder="Author" v-model="author"/>
+          </div>
+          <div class="form-login">
+            <label for="isbn">ISBN</label>
+            <input name="isbn" id="isbn" placeholder="ISBN" v-model="isbn"/>
+          </div>
+          <div class="form-login">
+            <label for="totalPage">Total Page</label>
+            <input name="totalPage" id="totalPage" placeholder="Total Page" v-model="totalPage"/>
+          </div>
+          <div class="form-login">
+            <label for="categoryId">Category</label>
+            <input name="categoryId" id="categoryId" placeholder="Category" v-model="categoryId"/>
+          </div>
+          <div class="form-login">
+            <label for="price">Price</label>
+            <input name="price" id="price" placeholder="Price" v-model="price"/>
+          </div>
+          <div class="form-login">
+            <label for="language">Language</label>
+            <input name="language" id="language" placeholder="Language" v-model="language"/>
+          </div>
+          <div class="form-login">
+            <label for="publishedBy">Publisher</label>
+            <input name="publishedBy" id="publishedBy" placeholder="Publisher"
+            v-model="publishedBy"/>
+          </div>
+          <div class="form-login">
+            <label for="publishedAt">Published On</label>
+            <input name="publishedAt" id="publishedAt" placeholder="Published On"
+            v-model="publishedAt"/>
+          </div>
+          <div class="form-login">
+            <label for="description">Description</label>
+            <textarea name="description" id="description" placeholder="Description"
+            v-model="description"
+            rows="5"/>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-warning button-save" @click="addBook">Save</button>
+        </footer>
+      </div>
+    </div>
+
   </section>
 </template>
 
 <script>
-import Modal from './Modal.vue';
+import axios from 'axios';
+// import Modal from './Modal.vue';
 
 export default {
   name: 'Sidebar',
   components: {
-    Modal,
+    // Modal,
+  },
+  data() {
+    return {
+      title: null,
+      image: null,
+      author: null,
+      isbn: null,
+      totalPage: null,
+      categoryId: null,
+      price: null,
+      description: null,
+      language: null,
+      publishedBy: null,
+      publishedAt: null,
+    };
   },
   methods: {
     sidebarHide() {
       const sidebar = document.querySelector('.sidebar');
       sidebar.classList.toggle('show-sidebar');
       console.log('Sidebar');
+    },
+    addBook() {
+      axios
+        .post('http://localhost:5000/api/library/admin/book', {
+          title: this.title,
+          image: this.image,
+          author: this.author,
+          isbn: this.isbn,
+          totalPage: this.totalPage,
+          categoryId: this.categoryId,
+          price: this.price,
+          description: this.description,
+          language: this.language,
+          publishedBy: this.publishedBy,
+          publishedAt: this.publishedAt,
+        })
+        .then((res) => {
+          console.log(res);
+          this.$swal.fire({
+            icon: 'success',
+            html: `Book ${this.title} has been created!`,
+            showConfirmButton: false,
+            timer: 3000,
+          });
+          const modal = document.querySelector('.modal');
+          modal.classList.toggle('is-active');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     showModal() {
       const modal = document.querySelector('.modal');
@@ -63,7 +181,7 @@ export default {
     height: 100vh;
     background: #ffffff;
     text-align: center;
-    padding: 50px;
+    padding: 50px 0;
     position: fixed;
     /* display: none; */
     transition: 1s;
@@ -71,44 +189,39 @@ export default {
     margin-left: -300px;
     box-shadow: none;
   }
-
   .show-sidebar {
     margin-left: 0px;
     box-shadow: 3px 2px 20px #999999;
     transition: 1s;
   }
-
   .sidebar .menu-button {
     text-align: right;
     position: absolute;
     top: 20px;
     left: 240px;
   }
-
   .menu-button button {
     background: none;
   }
-
   .sidebar .profile {
-    margin: 10px 0 50px;
+    margin: 10px 0;
   }
-
   .profile img {
     width: 150px;
     height: 150px;
   }
-
   .profile h4 {
     font-size: 20px;
     font-weight: bold;
     margin-top: 1em;
   }
-
   .sidebar .sidebar-menu {
     text-align: left;
     margin-top: 20px;
   }
-
+  .sidebar-menu{
+    padding: 0 30px;
+  }
   .sidebar-menu > p {
     color: #000000;
     cursor: pointer;
@@ -118,9 +231,27 @@ export default {
     flex-direction: column;
     transition: 0.5s;
   }
-
   .sidebar-menu > p:hover {
     color: #424242;
     transition: 0.5s;
+  }
+  .search-box {
+    width: 100%;
+    flex-direction: row;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 1px solid #ced4da;
+    display: none;
+  }
+  .search-box input{
+    width: 100%;
+    margin-left: 10px;
+    border: none;
+    outline: none;
+  }
+  @media (max-width: 450px) {
+    .search-box {
+      display: flex;
+    }
   }
 </style>

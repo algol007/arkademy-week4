@@ -79,9 +79,9 @@ export default {
             name: this.name,
             email: this.email,
             password: this.password,
-            this.$router.push('/auth/login');
           })
           .then((res) => {
+            this.$router.push('/auth/login');
             console.log(res);
           })
           .catch((err) => {

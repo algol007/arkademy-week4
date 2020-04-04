@@ -11,7 +11,7 @@ export default {
 <style>
   #slider{
     width: 100%;
-    height: 300px;
+    height: 400px;
     background-color: #696969;
   }
 </style>

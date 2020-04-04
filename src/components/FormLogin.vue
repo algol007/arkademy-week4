@@ -2,7 +2,7 @@
   <div class="form-group">
     <label :for="name">{{ label }}</label>
     <input :type="type" :name="name" :id="name" :placeholder="placeholder"
-    v-model="modelInput">
+    :v-model="$emit('change')">
   </div>
 </template>
 <script>
@@ -17,7 +17,7 @@ export default {
   ],
   methods: {
     modelIInput() {
-      this.$emit('mInput', 'something');
+      this.$emit('change', 'something');
     },
   },
 };
