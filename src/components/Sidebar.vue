@@ -30,7 +30,8 @@
     <div class="sidebar-menu">
       <p>Explore</p>
       <p><router-link to="/history" class="menu-list">History</router-link></p>
-      <p data-toggle="modal" v-on:click="showModal">Add Book*</p>
+      <p data-toggle="modal" @click="showModal" v-if="this.role == 'admin'">Add Book*</p>
+      <p class="none" v-else>Add Book*</p>
       <p @click="logout">Logout</p>
     </div>
     <!-- Sidebar Menu -->
@@ -109,9 +110,6 @@ export default {
   components: {
     // Modal,
   },
-  props: [
-    'name',
-  ],
   data() {
     return {
       title: null,
@@ -125,17 +123,40 @@ export default {
       language: null,
       publishedBy: null,
       publishedAt: null,
+      name: null,
+      role: null,
+      items: [],
     };
+  },
+  created() {
+    this.items = JSON.parse(localStorage.getItem('items'));
+    // console.log(this.items);
+  },
+  mounted() {
+    this.getUserById();
   },
   methods: {
     logout() {
-      localStorage.removeItem('isLogin');
+      localStorage.removeItem('items');
       this.$router.push('/auth/login');
     },
     sidebarHide() {
       const sidebar = document.querySelector('.sidebar');
       sidebar.classList.toggle('show-sidebar');
       console.log('Sidebar');
+    },
+    getUserById() {
+      axios
+        .get(`http://localhost:5000/api/library/user/${this.items.id}`)
+        .then((res) => {
+          console.log(res);
+          this.name = res.data.user.name;
+          this.role = res.data.user.role;
+          // console.log(res.data.user.name);
+        })
+        .catch(() => {
+          console.log('Error when load data!');
+        });
     },
     addBook() {
       axios
@@ -154,6 +175,7 @@ export default {
         })
         .then((res) => {
           console.log(res);
+          this.$router.go();
           this.$swal.fire({
             icon: 'success',
             html: `Book ${this.title} has been created!`,
@@ -177,6 +199,9 @@ export default {
 };
 </script>
 <style>
+  .none{
+    display: none !important;
+  }
   .sidebar-button{
     border: none;
     cursor: pointer;

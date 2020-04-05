@@ -28,7 +28,7 @@
             <div class="desc-subtitle">{{ book.author }}</div>
           </div>
           <div class="column status">
-            <p>{{ book.status }}</p>
+            <p>Available</p>
           </div>
         </div>
         <div class="desc-text">
@@ -120,7 +120,13 @@ export default {
     return {
       book: [],
       bookId: null,
+      isLogin: false,
     };
+  },
+  created() {
+    this.items = JSON.parse(localStorage.getItem('items'));
+    console.log(this.items);
+    this.isLogin = this.items.isLogin;
   },
   methods: {
     showModal() {
@@ -196,29 +202,38 @@ export default {
         });
     },
     addBorrow() {
-      this.bookId = this.$route.params.id;
-      axios
-        .post('http://localhost:5000/api/library/cart', {
-          bookId: this.bookId,
-        })
-        .then((res) => {
-          console.log(res);
-          this.$swal.fire({
-            icon: 'success',
-            html: `Book ${this.book.title} has been borrowed!`,
-            showConfirmButton: false,
-            timer: 3000,
+      if (this.isLogin === true) {
+        this.bookId = this.$route.params.id;
+        axios
+          .post('http://localhost:5000/api/library/cart', {
+            bookId: this.bookId,
+          })
+          .then((res) => {
+            console.log(res);
+            this.$swal.fire({
+              icon: 'success',
+              html: `Book ${this.book.title} has been borrowed!`,
+              showConfirmButton: false,
+              timer: 3000,
+            });
+          })
+          .catch((err) => {
+            console.log(err);
           });
-        })
-        .catch((err) => {
-          console.log(err);
+      } else {
+        this.$swal.fire({
+          icon: 'error',
+          title: 'You cannot borrow this book',
+          text: 'Please login first!',
+          footer: "<a href='http://localhost:8080/auth/login'>Go to login page..</a>",
         });
+      }
     },
   },
   computed: {
     img() {
       return {
-        'background-image': `url(${this.book.image})`,
+        backgroundImage: `url(${this.book.image})`,
       };
     },
   },

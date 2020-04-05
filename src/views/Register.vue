@@ -73,6 +73,12 @@ export default {
       event.preventDefault();
       if (this.password !== this.password2) {
         console.log('Password tidak sama!');
+        this.$swal.fire({
+          icon: 'error',
+          html: 'Password not match!',
+          showConfirmButton: false,
+          timer: 3000,
+        });
       } else {
         axios
           .post('http://localhost:5000/api/library/auth/signup', {
