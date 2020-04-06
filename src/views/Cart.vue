@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     mInput() {
-      console.log(this.email);
+      // console.log(this.email);
     },
     showModal() {
       const modal = document.querySelector('.modal');
@@ -44,10 +44,10 @@ export default {
       axios.get('http://localhost:5000/api/library/book')
         .then((res) => {
           this.books = res.data.books.rows;
-          console.log(res.data.books.rows);
+          // console.log(res.data.books.rows);
         })
         .catch(() => {
-          console.log('Error when load data!');
+          // console.log('Error when load data!');
         });
     },
   },

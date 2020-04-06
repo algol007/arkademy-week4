@@ -65,7 +65,20 @@
           </div>
           <div class="form-login">
             <label for="categoryId">Category</label>
-            <input name="categoryId" id="categoryId" placeholder="Category" v-model="categoryId"/>
+            <select name="categoryId" id="categoryId" v-model="categoryId">
+              <option value="1">Novel</option>
+              <option value="2">Komik</option>
+              <option value="3">Sastra</option>
+              <option value="4">Bisnis</option>
+              <option value="5">Travel</option>
+              <option value="6">Design</option>
+              <option value="7">Sejarah</option>
+              <option value="8">Hukum</option>
+              <option value="9">Matematika</option>
+              <option value="10">Teknologi</option>
+              <option value="11">Majalah</option>
+              <option value="12">Fiksi</option>
+            </select>
           </div>
           <div class="form-login">
             <label for="price">Price</label>
@@ -143,19 +156,19 @@ export default {
     sidebarHide() {
       const sidebar = document.querySelector('.sidebar');
       sidebar.classList.toggle('show-sidebar');
-      console.log('Sidebar');
+      // console.log('Sidebar');
     },
     getUserById() {
       axios
         .get(`http://localhost:5000/api/library/user/${this.items.id}`)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           this.name = res.data.user.name;
           this.role = res.data.user.role;
           // console.log(res.data.user.name);
         })
         .catch(() => {
-          console.log('Error when load data!');
+          // console.log('Error when load data!');
         });
     },
     addBook() {
@@ -173,8 +186,8 @@ export default {
           publishedBy: this.publishedBy,
           publishedAt: this.publishedAt,
         })
-        .then((res) => {
-          console.log(res);
+        .then(() => {
+          // console.log(res);
           this.$router.go();
           this.$swal.fire({
             icon: 'success',
@@ -187,8 +200,8 @@ export default {
           modal.classList.toggle('is-active');
           sidebar.classList.toggle('show-sidebar');
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          // console.log(err);
         });
     },
     showModal() {

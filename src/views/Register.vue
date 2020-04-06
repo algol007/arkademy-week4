@@ -11,27 +11,28 @@
           <h5>Welcome back, Please register</h5>
           <h5>to create account</h5>
         </div>
-        <form action="" class="form">
+        <form @submit="signUp" class="form">
           <div class="form-group">
             <label for="name">Fullname</label>
-            <input type="name" name="name" id="name" placeholder="Fullname" v-model="name">
+            <input type="name" name="name" id="name" placeholder="Fullname" v-model="name" required>
           </div>
           <div class="form-group">
             <label for="email">Email Address</label>
-            <input type="email" name="email" id="email" placeholder="Email Address" v-model="email">
+            <input type="email" name="email" id="email" placeholder="Email Address" v-model="email"
+            required>
           </div>
           <div class="form-group">
             <label for="password">Password</label>
             <input type="password" name="password" id="password" placeholder="Password"
-            v-model="password">
+            v-model="password" required>
           </div>
           <div class="form-group">
             <label for="password2">Repeat Password</label>
             <input type="password" name="password2" id="password2" placeholder="Repeat Password"
-            v-model="password2">
+            v-model="password2" required>
           </div>
           <div class="button-group">
-            <button @click="signUp" class="button is-black">Signup</button>
+            <button type="submit" class="button is-black">Signup</button>
             <router-link to='/auth/login' class="button is-white">Login</router-link>
           </div>
         </form>
@@ -72,7 +73,7 @@ export default {
     signUp(event) {
       event.preventDefault();
       if (this.password !== this.password2) {
-        console.log('Password tidak sama!');
+        // console.log('Password tidak sama!');
         this.$swal.fire({
           icon: 'error',
           html: 'Password not match!',
@@ -86,9 +87,9 @@ export default {
             email: this.email,
             password: this.password,
           })
-          .then((res) => {
+          .then(() => {
             this.$router.push('/auth/login');
-            console.log(res);
+            // console.log(res);
             this.$swal.fire({
               icon: 'success',
               html: 'User has been created! Please login.',
@@ -96,8 +97,8 @@ export default {
               timer: 3000,
             });
           })
-          .catch((err) => {
-            console.log(err);
+          .catch(() => {
+            // console.log(err);
           });
       }
     },

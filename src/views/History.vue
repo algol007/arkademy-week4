@@ -6,11 +6,11 @@
     <p class="card-header-title">
       Borrow History
     </p>
-    <a href="#" class="card-header-icon" aria-label="more options">
+    <!-- <a href="#" class="card-header-icon" aria-label="more options">
       <span class="icon">
         <i class="fas fa-angle-down" aria-hidden="true"></i>
       </span>
-    </a>
+    </a> -->
   </header>
   <div class="card-content">
     <div class="content">
@@ -19,6 +19,7 @@
           <tr>
             <th>Title</th>
             <th>Date Borrow</th>
+            <th>Status</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -26,6 +27,7 @@
           <tr>
             <td>{{ cart.bookCart.title }}</td>
             <td>{{ cart.createdAt }}</td>
+            <td>Borrow</td>
             <td>
               <button class="button is-info is-small" @click="seeDetail(cart.bookCart.id)">
                 Detail</button>
@@ -63,7 +65,7 @@ export default {
   },
   created() {
     this.items = JSON.parse(localStorage.getItem('items'));
-    console.log(this.items);
+    // console.log(this.items);
     this.userId = this.items.id;
   },
   methods: {
@@ -71,13 +73,13 @@ export default {
       axios
         .get(`http://localhost:5000/api/library/user/${this.userId}`)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           this.role = res.data.user.role;
           this.name = res.data.user.name;
-          console.log(this.role);
+          // console.log(this.role);
         })
         .catch(() => {
-          console.log('Error when load data!');
+          // console.log('Error when load data!');
         });
     },
     getAllCart() {
@@ -86,18 +88,18 @@ export default {
         .then((res) => {
           this.carts = res.data.carts.rows;
           this.numbers = res.data.carts.count;
-          console.log(this.carts);
+          // console.log(this.carts);
         })
         .catch(() => {
-          console.log('Error when load data!');
+          // console.log('Error when load data!');
         });
     },
     seeDetail(id) {
-      console.log(id);
+      // console.log(id);
       this.$router.push(`/book/detail/${id}`);
     },
     deleteCart(id) {
-      console.log(id);
+      // console.log(id);
       this.$swal.fire({
         html: 'Are you sure to delete cart?',
         icon: 'warning',
@@ -110,8 +112,8 @@ export default {
           if (result.value) {
             axios
               .delete(`http://localhost:5000/api/library/cart/${id}`)
-              .then((res) => {
-                console.log(res);
+              .then(() => {
+                // console.log(res);
                 this.$swal.fire({
                   icon: 'success',
                   html: 'Cart has been deleted!',

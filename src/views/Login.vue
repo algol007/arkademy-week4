@@ -11,7 +11,7 @@
           <h5>Welcome back, Please login</h5>
           <h5>to your account</h5>
         </div>
-        <form action="" class="form">
+        <form @submit="signIn" class="form">
           <div class="form-group">
             <label for="email">Email Address</label>
             <input type="email" name="email" id="email" placeholder="Email Address" v-model="email"
@@ -23,7 +23,7 @@
             v-model="password" required>
           </div>
           <Checkbox />
-          <button class="button is-black" @click="signIn">Login</button>
+          <button class="button is-black" type="submit">Login</button>
           <router-link to='/auth/register' class="button is-white">Signup</router-link>
         </form>
         <div class="footer-login">
@@ -77,7 +77,7 @@ export default {
         .then((res) => {
           this.userId = res.data.id;
           this.$router.push('/');
-          console.log(this.userId);
+          // console.log(this.userId);
           this.$swal.fire({
             icon: 'success',
             html: 'Login Success!',

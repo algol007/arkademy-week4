@@ -1,7 +1,76 @@
 <template>
   <div class="dashboard">
     <!-- <Navbar v-if="isLogin" /> -->
-    <HomeNav v-if="!isLogin"/>
+    <!-- <HomeNav v-if="!isLogin"/> -->
+    <nav class="columns is-gapless custom-navbar" v-if="!isLogin">
+      <div class="column navbar-brand">
+        <router-link to="/">
+        <img src="../assets/img/bookshelf.png" alt="logo" height="40px" width="40px">
+        </router-link>
+        <router-link to="/" class="back-home">Library</router-link>
+      </div>
+      <div class="column sort-book">
+        <div class="dropdown satu">
+          <div class="dropdown-trigger">
+            <a class="button" aria-haspopup="true" aria-controls="dropdown-menu"
+            @click="active1">
+              <span>Sort Book</span>
+              <span class="icon is-small">
+                <i class="fas fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </a>
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu" role="menu">
+            <div class="dropdown-content">
+              <div class="dropdown-item" @click="getBooksByTitle">
+                By Title
+              </div>
+              <hr class="dropdown-divider">
+              <div class="dropdown-item" @click="getBooksByAuthor">
+                By Author
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dropdown dua">
+          <div class="dropdown-trigger">
+            <a class="button" aria-haspopup="true" aria-controls="dropdown-menu"
+            @click="active2">
+              <span>All Time</span>
+              <span class="icon is-small">
+                <i class="fas fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </a>
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu" role="menu">
+            <div class="dropdown-content">
+              <div class="dropdown-item" @click="getBooksByYear2">
+                Newest
+              </div>
+              <hr class="dropdown-divider">
+              <div class="dropdown-item" @click="getBooksByYear">
+                Latest
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column search">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input
+            class="form-control mr-sm-2"
+            type="search"
+            placeholder="Search..."
+            aria-label="Search"
+            v-model="search"
+            @input="searchBooks"/>
+        </div>
+      </div>
+      <div class="column button-login">
+        <router-link to="/auth/login" class="button is-black">Login</router-link>
+      </div>
+    </nav>
     <nav class="columns is-gapless custom-navbar" v-else>
       <Sidebar :name="this.name" />
       <div class="toggle-menu" @click="sidebarShow">
@@ -62,7 +131,7 @@
             placeholder="Search..."
             aria-label="Search"
             v-model="search"
-            @change="searchBooks"/>
+            @input="searchBooks"/>
         </div>
       </div>
       <div class="column navbar-brand">
@@ -104,7 +173,7 @@ import Slider from '../components/Slider.vue';
 import Card from '../components/Card.vue';
 import Sidebar from '../components/Sidebar.vue';
 // import Pagination from '../components/Pagination.vue';
-import HomeNav from '../components/HomeNav.vue';
+// import HomeNav from '../components/HomeNav.vue';
 
 export default {
   name: 'Dashboard',
@@ -114,7 +183,7 @@ export default {
     Card,
     Sidebar,
     // Pagination,
-    HomeNav,
+    // HomeNav,
   },
   data() {
     return {
@@ -134,8 +203,10 @@ export default {
   },
   created() {
     this.items = JSON.parse(localStorage.getItem('items'));
-    console.log(this.items);
-    this.isLogin = this.items.isLogin;
+    // console.log(this.items);
+    if (this.items) {
+      this.isLogin = this.items.isLogin;
+    }
   },
   methods: {
     pages(id) {
@@ -150,18 +221,18 @@ export default {
         .then((res) => {
           this.totalPage = Math.ceil(res.data.books.count / this.limit);
           this.books = res.data.books.rows;
-          console.log(res.data.books.rows);
-          console.log(this.books.length);
+          // console.log(res.data.books.rows);
+          // console.log(this.books.length);
           // console.log(this.currentPage);
         })
         .catch(() => {
-          console.log('Error when load data!');
+          // console.log('Error when load data!');
         });
     },
     sidebarShow() {
       const sidebar = document.querySelector('.sidebar');
       sidebar.classList.toggle('show-sidebar');
-      console.log('Navbar');
+      // console.log('Navbar');
     },
     active1() {
       const dropdown1 = document.querySelector('.satu');
@@ -170,7 +241,7 @@ export default {
     active2() {
       const dropdown2 = document.querySelector('.dua');
       dropdown2.classList.toggle('is-active');
-      console.log(this.sort);
+      // console.log(this.sort);
     },
     getAllBooks() {
       // this.url = `http://localhost:5000/api/library/book?page=${this.currentPage}`;
@@ -181,57 +252,59 @@ export default {
         .then((res) => {
           this.totalPage = Math.ceil(res.data.books.count / this.limit);
           this.books = res.data.books.rows;
-          console.log(res.data.books.rows);
-          console.log(this.books.length);
+          // console.log(res.data.books.rows);
+          // console.log(this.books.length);
           // console.log(this.currentPage);
         })
         .catch(() => {
-          console.log('Error when load data!');
+          // console.log('Error when load data!');
         });
     },
     getBooksByTitle() {
-      const title = '&title=ASC';
+      this.sort = '&title=ASC';
       axios
-        .get(this.url + this.currentPage + title)
+        .get(this.url + this.currentPage + this.sort)
         .then((res) => {
           this.books = res.data.books.rows;
           // console.log(res.data.books.rows);
         })
         .catch(() => {
-          console.log('Error when load data!');
+          // console.log('Error when load data!');
         });
     },
     getBooksByAuthor() {
+      this.sort = '&author=ASC';
       axios
-        .get('http://localhost:5000/api/library/book?page=1&author=ASC')
+        .get(this.url + this.currentPage + this.sort)
         .then((res) => {
           this.books = res.data.books.rows;
-          console.log(res.data.books.rows);
+          // console.log(res.data.books.rows);
         })
         .catch(() => {
-          console.log('Error when load data!');
+          // console.log('Error when load data!');
         });
     },
     getBooksByYear() {
+      this.sort = '&year=ASC';
       axios
-        .get('http://localhost:5000/api/library/book?page=1&year=ASC')
+        .get(this.url + this.currentPage + this.sort)
         .then((res) => {
           this.books = res.data.books.rows;
-          console.log(res.data.books.rows);
+          // console.log(res.data.books.rows);
         })
         .catch(() => {
-          console.log('Error when load data!');
+          // console.log('Error when load data!');
         });
     },
     getBooksByYear2() {
       axios
-        .get('http://localhost:5000/api/library/book?page=1&year=DESC')
+        .get(this.url + this.currentPage + this.sort)
         .then((res) => {
           this.books = res.data.books.rows;
-          console.log(res.data.books.rows);
+          // console.log(res.data.books.rows);
         })
         .catch(() => {
-          console.log('Error when load data!');
+          // console.log('Error when load data!');
         });
     },
     searchBooks() {
@@ -239,12 +312,19 @@ export default {
         .get(`http://localhost:5000/api/library/book?search=${this.search}`)
         .then((res) => {
           this.books = res.data.books.rows;
-          console.log(res.data.books.rows);
+          // console.log(res.data.books.rows);
           const slider = document.querySelector('.slider');
-          slider.style.display = 'none';
+          const book = document.querySelector('.book');
+          if (this.search) {
+            slider.style.display = 'none';
+            book.style.paddingTop = '100px';
+          } else {
+            slider.style.display = 'block';
+            book.style.paddingTop = '50px';
+          }
         })
         .catch(() => {
-          console.log('Error when load data!');
+          // console.log('Error when load data!');
         });
     },
     nextPages() {
@@ -348,7 +428,7 @@ export default {
     border: none;
     outline: none;
   }
-  .navbar-brand{
+  .navbar-brand, .button-login{
     display: flex;
     align-items: center;
     justify-content: center;

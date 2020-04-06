@@ -6,7 +6,7 @@
         <div class="nav-back">
           <router-link to="/"><div class="back"></div></router-link>
         </div>
-        <div class="nav-option">
+        <div class="nav-option" v-if="this.role == 'admin'">
           <button @click="showModal">Edit</button>
           <button @click="deleteBook">Delete</button>
         </div>
@@ -74,7 +74,20 @@
         </div>
         <div class="form-login">
           <label for="categoryId">Category</label>
-          <input name="categoryId" id="categoryId" v-model="book.categoryId"/>
+            <select name="categoryId" id="categoryId" v-model="book.categoryId">
+              <option value="1">Novel</option>
+              <option value="2">Komik</option>
+              <option value="3">Sastra</option>
+              <option value="4">Bisnis</option>
+              <option value="5">Travel</option>
+              <option value="6">Design</option>
+              <option value="7">Sejarah</option>
+              <option value="8">Hukum</option>
+              <option value="9">Matematika</option>
+              <option value="10">Teknologi</option>
+              <option value="11">Majalah</option>
+              <option value="12">Fiksi</option>
+            </select>
         </div>
         <div class="form-login">
           <label for="price">Price</label>
@@ -121,18 +134,33 @@ export default {
       book: [],
       bookId: null,
       isLogin: false,
+      userId: null,
+      role: null,
     };
   },
   created() {
     this.items = JSON.parse(localStorage.getItem('items'));
-    console.log(this.items);
-    this.isLogin = this.items.isLogin;
+    // console.log(this.items);
+    this.role = this.items.role;
+    this.userId = this.items.id;
   },
   methods: {
     showModal() {
       const modal = document.querySelector('.modal');
       modal.classList.toggle('is-active');
-      console.log(this.book.bookCategory);
+      // console.log(this.book.bookCategory);
+    },
+    getUserById() {
+      axios
+        .get(`http://localhost:5000/api/library/user/${this.userId}`)
+        .then((res) => {
+          // console.log(res);
+          this.role = res.data.user.role;
+          // console.log(this.role);
+        })
+        .catch(() => {
+          // console.log('Error when load data!');
+        });
     },
     deleteBook() {
       this.$swal.fire({
@@ -147,8 +175,8 @@ export default {
           if (result.value) {
             axios
               .delete(`http://localhost:5000/api/library/admin/book/${this.$route.params.id}`)
-              .then((res) => {
-                console.log(res);
+              .then(() => {
+                // console.log(res);
                 this.$swal.fire({
                   icon: 'success',
                   html: `Book ${this.book.title} has been deleted!`,
@@ -175,30 +203,31 @@ export default {
           publishedBy: this.book.publishedBy,
           publishedAt: this.book.publishedAt,
         })
-        .then((res) => {
+        .then(() => {
           // console.log(${this.$route.params.id});
-          console.log(res);
+          // console.log(res);
           this.$swal.fire({
             icon: 'success',
             html: `Book ${this.book.title} has been updated!`,
             showConfirmButton: false,
             timer: 3000,
           });
+          this.$router.go();
           const modal = document.querySelector('.modal');
           modal.classList.toggle('is-active');
         })
         .catch(() => {
-          console.log('Error when load data!');
+          // console.log('Error when load data!');
         });
     },
     getBookById() {
       axios.get(`http://localhost:5000/api/library/book/${this.$route.params.id}`)
         .then((res) => {
           this.book = res.data.book;
-          console.log(res);
+          // console.log(res);
         })
         .catch(() => {
-          console.log('Error when load data!');
+          // console.log('Error when load data!');
         });
     },
     addBorrow() {
@@ -208,8 +237,8 @@ export default {
           .post('http://localhost:5000/api/library/cart', {
             bookId: this.bookId,
           })
-          .then((res) => {
-            console.log(res);
+          .then(() => {
+            // console.log(res);
             this.$swal.fire({
               icon: 'success',
               html: `Book ${this.book.title} has been borrowed!`,
@@ -217,8 +246,8 @@ export default {
               timer: 3000,
             });
           })
-          .catch((err) => {
-            console.log(err);
+          .catch(() => {
+            // console.log(err);
           });
       } else {
         this.$swal.fire({
@@ -239,6 +268,7 @@ export default {
   },
   mounted() {
     this.getBookById();
+    this.getUserById();
   },
 };
 </script>
@@ -344,12 +374,13 @@ export default {
     text-align: right;
     padding-right: 10px;
   }
-  .form-login input, .form-login textarea{
+  .form-login input, .form-login textarea, .form-login select{
     border-radius: 5px;
-    width: 80%;
+    width: 80% !important;
     padding: 10px;
     border: 1px solid #d0cccc;
     font-size: 14px;
+    background-color: transparent;
   }
 
   @media (max-width: 992px) {

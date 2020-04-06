@@ -56,15 +56,15 @@ export default {
       axios.get(`http://localhost:5000/api/library/book/${this.$route.params.id}`)
         .then((res) => {
           this.book = res.data.book;
-          console.log(res.data.book);
+          // console.log(res.data.book);
           // console.log(${this.$route.params.id});
         })
         .catch(() => {
-          console.log('Error when load data!');
+          // console.log('Error when load data!');
         });
     },
     addBook() {
-      console.log('Hello');
+      // console.log('Hello');
     },
   },
   mounted() {

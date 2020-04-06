@@ -27,7 +27,7 @@ export default {
     sidebarShow() {
       const sidebar = document.querySelector('.sidebar');
       sidebar.classList.toggle('show-sidebar');
-      console.log('Navbar');
+      // console.log('Navbar');
     },
     active1() {
       const dropdown1 = document.querySelector('.satu');
