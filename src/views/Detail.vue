@@ -143,6 +143,7 @@ export default {
     // console.log(this.items);
     this.role = this.items.role;
     this.userId = this.items.id;
+    this.isLogin = this.items.isLogin;
   },
   methods: {
     showModal() {

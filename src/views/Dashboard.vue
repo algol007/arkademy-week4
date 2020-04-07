@@ -156,7 +156,7 @@
         <li><button class="pagination-previous" @click="prevPages">Previous</button></li>
           <li class="pagination-gap" v-for="page in this.totalPage" :key="page.id"
           @click="pages(page)">
-            <div class="pagination-link" v>{{ page }}</div>
+            <div class="pagination-link is-current">{{ page }}</div>
           </li>
         <li><button class="pagination-next" @click="nextPages">Next page</button></li>
         <!-- <ul class="pagination-list" v-for="page in this.totalPage" :key="page.id"> -->
