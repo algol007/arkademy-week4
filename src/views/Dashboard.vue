@@ -247,7 +247,7 @@ export default {
       // this.url = `http://localhost:5000/api/library/book?page=${this.currentPage}`;
       // console.log(this.url);
       axios
-        .get(this.url + this.currentPage)
+        .get('http://localhost:5000/api/library/book')
         // .get('http://localhost:5000/api/library/book?page=2')
         .then((res) => {
           this.totalPage = Math.ceil(res.data.books.count / this.limit);
