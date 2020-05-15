@@ -64,7 +64,8 @@ export default {
   },
   methods: {
     localData() {
-      const parsed = JSON.stringify({ isLogin: true, id: this.userId });
+      // const parsed = JSON.stringify({ isLogin: true, id: this.userId });
+      const parsed = JSON.stringify({ isLogin: true, id: 1 });
       localStorage.setItem('items', parsed);
     },
     signIn(event) {
@@ -77,7 +78,7 @@ export default {
         .then((res) => {
           this.userId = res.data.id;
           this.$router.push('/');
-          // console.log(this.userId);
+          console.log(this.uerId);
           this.$swal.fire({
             icon: 'success',
             html: 'Login Success!',

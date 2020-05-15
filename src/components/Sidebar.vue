@@ -30,8 +30,9 @@
     <div class="sidebar-menu">
       <p>Explore</p>
       <p><router-link to="/history" class="menu-list">History</router-link></p>
-      <p data-toggle="modal" @click="showModal" v-if="this.role == 'admin'">Add Book*</p>
-      <p class="none" v-else>Add Book*</p>
+      <!-- <p data-toggle="modal" @click="showModal" v-if="this.role == 'admin'">Add Book*</p> -->
+      <p data-toggle="modal" @click="showModal">Add Book*</p>
+      <!-- <p class="none" v-else>Add Book*</p> -->
       <p @click="logout">Logout</p>
     </div>
     <!-- Sidebar Menu -->
@@ -49,7 +50,7 @@
           </div>
           <div class="form-login">
             <label for="image">Image</label>
-            <input name="image" id="image" placeholder="Image" v-model="image"/>
+            <input type="file" name="image" id="image" placeholder="Image" @change="upload"/>
           </div>
           <div class="form-login">
             <label for="author">Author</label>
@@ -149,6 +150,11 @@ export default {
     this.getUserById();
   },
   methods: {
+    upload(event) {
+      const image = event.target.value;
+      this.image = image.slice(12);
+      console.log(this.image);
+    },
     logout() {
       localStorage.removeItem('items');
       this.$router.push('/auth/login');
@@ -165,7 +171,7 @@ export default {
           // console.log(res);
           this.name = res.data.user.name;
           this.role = res.data.user.role;
-          // console.log(res.data.user.name);
+          console.log(res.data.user.role);
         })
         .catch(() => {
           // console.log('Error when load data!');
